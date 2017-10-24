@@ -1,0 +1,105 @@
+ patches.suse/nfs4acl-common.diff |    2 +-
+ series.conf                      |   42 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 43 insertions(+), 1 deletions(-)
+
+diff --git a/patches.suse/nfs4acl-common.diff b/patches.suse/nfs4acl-common.diff
+index bccf826..9316328 100644
+--- a/patches.suse/nfs4acl-common.diff
++++ b/patches.suse/nfs4acl-common.diff
+@@ -34,7 +34,7 @@ Signed-off-by: Andreas Gruenbacher <agruen@suse.de>
+ +
+  source "fs/xfs/Kconfig"
+  source "fs/gfs2/Kconfig"
+- 
++ source "fs/ocfs2/Kconfig"
+ --- a/fs/Makefile
+ +++ b/fs/Makefile
+ @@ -50,6 +50,10 @@ obj-$(CONFIG_FS_POSIX_ACL)	+= posix_acl.
+diff --git a/series.conf b/series.conf
+index 80a0d2d..041dee1 100644
+--- a/series.conf
++++ b/series.conf
+@@ -940,6 +940,7 @@
+ 	patches.fixes/ocfs2-comments-typo-fix.patch
+ 	patches.fixes/ocfs2-initialize-stack_user-lvbptr.patch
+ 	patches.fixes/ocfs2-fix-wake_up-in-unlock_ast.patch
++	tmp/ocfs2-Small-documentation-update.patch
+ 	patches.fixes/ocfs2-fix-return-value-set-in-init_dlmfs_fs.patch
+ 	patches.fixes/ocfs2-fix-regression-in-ocfs2_read_blocks_sync.patch
+ 	patches.fixes/ocfs2-Always-update-xattr-search-when-creating-buck.patch
+@@ -998,6 +999,12 @@
+ 	patches.suse/quota-Keep-which-entries-were-set-by-SETQUOTA-quota.patch
+ 	patches.suse/quota-Add-helpers-to-allow-ocfs2-specific-quota-ini.patch
+ 	patches.suse/quota-Implement-function-for-scanning-active-dquots.patch
++	tmp/ocfs2-Wrap-inode-block-reads-in-a-dedicated-function.patch
++	tmp/ocfs2-Morph-the-haphazard-OCFS2_IS_VALID_DINODE-chec.patch
++	tmp/ocfs2-Consolidate-validation-of-group-descriptors.patch
++	tmp/ocfs2-Wrap-group-descriptor-reads-in-a-dedicated-fun.patch
++	tmp/ocfs2-Morph-the-haphazard-OCFS2_IS_VALID_GROUP_DESC-.patch
++	tmp/ocfs2-Remove-JBD-compatibility-layer.patch
+ 	patches.suse/ocfs2-Support-nested-transactions.patch
+ 	patches.suse/ocfs2-Assign-feature-bits-and-system-inodes-to-quot.patch
+ 	patches.suse/ocfs2-Mark-system-files-as-not-subject-to-quota-acc.patch
+@@ -1012,13 +1019,22 @@
+ 	patches.suse/ocfs2-Change-quotafile-names.patch
+ 	patches.suse/ocfs2-Fix-oops-when-one-quotatype-enabled
+ 	patches.suse/ocfs2-Fix-hang-in-quota-recovery-code.patch
++	tmp/ocfs2-Add-missing-initialization.patch
++	tmp/ocfs2-Wrap-up-the-common-use-cases-of-ocfs2_new_path.patch
++	tmp/ocfs2-dlm-Fix-a-race-between-migrate-request-and-exi.patch
++	tmp/ocfs2-dlm-Clean-up-errors-in-dlm_proxy_ast_handler.patch
++	tmp/ocfs2-dlm-Fix-race-during-lockres-mastery.patch
++	tmp/fs-Kconfig-move-ocfs2-out.patch
+ 
+ 	# Fixes from 2.6.29
+ 	patches.fixes/ocfs2-dlm-Hold-off-sending-lockres-drop-ref-message.patch
+ 	patches.fixes/ocfs2-push-out-dropping-of-dentry-lock-to-ocfs2_wq.patch
++	tmp/configfs-Silence-lockdep-on-mkdir-rmdir-and-configfs.patch
+ 	patches.fixes/ocfs2-wakeup-the-downconvert-thread-after-a-success.patch
+ 	patches.fixes/ocfs2-add-quota-call-to-ocfs2_remove_btree_range.patch
+ 	patches.fixes/ocfs2-access-and-dirty-the-buffer_head-in-mark_writ.patch
++	tmp/ocfs2-dlm-Retract-fix-for-race-between-purge-and-mig.patch
++	tmp/ocfs2-Cleanup-the-lockname-print-in-dlmglue.c.patch
+ 	patches.fixes/ocfs2-dlm-use-ast_lock-to-protect-ast_list.patch
+ 	patches.fixes/ocfs2-dlm-make-dlm_assert_master_handler-kill-its.patch
+ 	patches.fixes/ocfs2-set-gap-to-seperate-entry-and-value-when-xatt.patch
+@@ -1039,6 +1055,7 @@
+ 	patches.fixes/ocfs2-quota-Remove-syncjiff-field-from-quota-info.patch
+ 
+ 	# bnc #408304
++	tmp/constify-dentry_operations-OCFS2.patch
+ 	patches.fixes/ocfs2-dlm-fix-race-in-adding-removing-lockres-to-f.patch
+ 	patches.fixes/ocfs2-dlm-encapsulate-adding-and-removing-of-mle-fr.patch
+ 	patches.fixes/ocfs2-dlm-clean-up-struct-dlm_lock_name.patch
+@@ -1056,6 +1073,31 @@
+ 	patches.fixes/ocfs2-initialize-count-before-generic_write_checks
+ 
+ 	# fixes from 2.6.31
++	tmp/ocfs2-hb-Expose-the-list-of-heartbeating-nodes-via-d.patch
++	tmp/ocfs2-Move-struct-recovery_map-to-a-header-file.patch
++	tmp/ocfs2-Expose-the-file-system-state-via-debugfs.patch
++	tmp/ocfs2-Remove-debugfs-file-local_alloc_stats.patch
++	tmp/ocfs2-fix-rare-stale-inode-errors-when-exporting-via.patch
++	tmp/ocfs2-Add-missing-iput-during-error-handling-in-ocfs.patch
++	tmp/ocfs2-Don-t-printk-the-error-when-listing-too-many-x.patch
++	tmp/ocfs2-Change-repository-in-MAINTAINERS.patch
++	tmp/ocfs2-update-comments-in-masklog.h.patch
++	tmp/ocfs2-timer-to-queue-scan-of-all-orphan-slots.patch
++	tmp/ocfs2-patch-to-track-delayed-orphan-scan-timer-stati.patch
++	tmp/ocfs2-Remove-redundant-gotos-in-ocfs2_mount_volume.patch
++	tmp/ocfs2-fdatasync-should-skip-unimportant-metadata-wri.patch
++	tmp/ocfs2-remove-write_super-and-stop-maintaining-s_dirt.patch
++	tmp/ocfs2-Adjust-rightmost-path-in-ocfs2_add_branch.patch
++	tmp/ocfs2-net-Use-wait_event-in-o2net_send_message_vec.patch
++	tmp/ocfs2-Provide-the-ocfs2_dlm_lvb_valid-stack-API.patch
++	tmp/ocfs2-Update-atime-in-splice-read-if-necessary.patch
++	tmp/ocfs2-Pin-journal-head-before-accessing-jh-b_committ.patch
++	tmp/ocfs2-Fix-ocfs2_osb_dump.patch
++	tmp/ocfs2-Stop-orphan-scan-as-early-as-possible-during-u.patch
++	tmp/ocfs2-Do-not-initialize-lvb-in-ocfs2_orphan_scan_loc.patch
++	tmp/ocfs2-Disable-orphan-scanning-for-local-and-hard-ro-.patch
++	tmp/ocfs2-Add-lockdep-annotations.patch
++	tmp/ocfs2-trivial-Wrap-ocfs2_sysfile_cluster_lock_key-wi.patch
+ 	patches.fixes/dlm-fix-use-count-with-multiple-joins.patch
+ 	patches.fixes/dlm-connect-to-nodes-earlier.patch
+ 	patches.fixes/dlm-use-more-NOFS-allocation.patch
